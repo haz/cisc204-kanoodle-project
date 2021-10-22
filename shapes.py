@@ -4,7 +4,6 @@ blue = []
 # Define blue up
 blue.append("""
 
-    ---
     -X-
     XXX
 
@@ -14,23 +13,22 @@ blue.append("""
 
     XXX
     -X-
-    ---
 
 """)
 # Define blue left
 blue.append("""
 
-    --X
-    -XX
-    --X
+    -X
+    XX
+    -X
 
 """)
 # Define blue right
 blue.append("""
 
-    X--
-    XX-
-    X--
+    X-
+    XX
+    X-
 
 """)
 
