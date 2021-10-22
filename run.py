@@ -3,10 +3,25 @@ from itertools import groupby
 from bauhaus import Encoding, proposition, constraint, print_theory
 from bauhaus.utils import count_solutions, likelihood
 
+from shapes import SHAPES
+
 import pprint
 
 # Encoding that will store all of your constraints
 E = Encoding()
+
+
+#############
+# Constants #
+#############
+DIM = 4
+
+
+####################################
+#
+#   Propositions
+#
+####################################
 
 # Proposition to determine which configuration is used for a coloured piece
 @proposition(E)
@@ -21,16 +36,13 @@ class PieceConfig:
 
 pieceConfigs = {
     'red': [],
-    'green': [],
     'blue': []
 }
 
 for col in pieceConfigs:
-    for i in range(8):
-        pieceConfigs[col].append(PieceConfig(col, i))
-
-for col in pieceConfigs:
-    constraint.add_exactly_one(E, *(pieceConfigs[col]))
+    for i in range(len(SHAPES[col])):
+        prop = PieceConfig(col, i)
+        pieceConfigs[col].append(prop)
 
 
 
@@ -48,24 +60,55 @@ class PlacePiece:
 
 
 pieceLocations = {
-    'red': {i: {} for i in range(8)},
-    'green': {i: {} for i in range(8)},
-    'blue': {i: {} for i in range(8)}
+    'red': [{} for _ in range(len(SHAPES['red']))],
+    'blue': [{} for _ in range(len(SHAPES['blue']))]
 }
 
+piecesAtLocation = {}
+
 for col in pieceLocations:
-    for i in range(8):
-        for x in range(4):
-            for y in range(4):
-                pieceLocations[col][i][(x,y)] = PlacePiece(col, i, x, y)
+    for i in range(len(SHAPES[col])):
+        for x in range(DIM):
+            for y in range(DIM):
+
+                prop = PlacePiece(col, i, x, y)
+
+                pieceLocations[col][i][(x,y)] = prop
+
+                if (x,y) not in piecesAtLocation:
+                    piecesAtLocation[(x,y)] = []
+                piecesAtLocation[(x,y)].append(prop)
+
+
+
+
+####################################
+#
+#   Constraints
+#
+####################################
+
+
+for col in pieceConfigs:
+    constraint.add_exactly_one(E, *(pieceConfigs[col]))
+
 
 
 # specifically restrict that mega-sized red piece
 for i in range(len(pieceLocations['red'])):
-    for x in range(4):
-        for y in range(4):
+    for x in range(DIM):
+        for y in range(DIM):
             if x > 2 or y > 2:
                 E.add_constraint(~pieceLocations['red'][i][(x,y)])
+
+
+for x in range(DIM):
+    for y in range(DIM):
+            constraint.add_at_most_one(E, *(piecesAtLocation[(x,y)]))
+
+
+###################################################################
+
 
 
 # Build an example full theory for your setting and return it.
@@ -86,6 +129,7 @@ if __name__ == "__main__":
     # of your model:
     print("\nSatisfiable: %s" % T.satisfiable())
     print("# Solutions: %d" % count_solutions(T))
+    print()
     # print("   Solution: %s" % T.solve())
 
     sol = T.solve()
