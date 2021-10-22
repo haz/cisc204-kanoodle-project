@@ -21,7 +21,7 @@ blue.append("""
 blue.append("""
 
     --X
-    XXX
+    -XX
     --X
 
 """)
@@ -29,7 +29,7 @@ blue.append("""
 blue.append("""
 
     X--
-    XXX
+    XX-
     X--
 
 """)
@@ -69,7 +69,7 @@ red.append("""
 def process(shape):
     shape = shape.strip()
     shape = [l.strip() for l in shape.split("\n")]
-    return shape
+    return [[shape[y][x] for y in range(len(shape))] for x in range(len(shape[0]))]
 
 blue = [process(s) for s in blue]
 red = [process(s) for s in red]
