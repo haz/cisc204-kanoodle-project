@@ -4,6 +4,8 @@ from bauhaus import Encoding, proposition, constraint, print_theory
 from bauhaus.utils import count_solutions, likelihood
 
 from shapes import SHAPES
+from viz import visualize
+from utils import get_coordinates
 
 import pprint
 
@@ -14,7 +16,7 @@ E = Encoding()
 #############
 # Constants #
 #############
-DIM = 4
+DIM = 3
 
 
 ####################################
@@ -66,6 +68,10 @@ pieceLocations = {
 
 piecesAtLocation = {}
 
+pieceLocationsByCol = {
+    col: [] for col in pieceLocations
+}
+
 for col in pieceLocations:
     for i in range(len(SHAPES[col])):
         for x in range(DIM):
@@ -74,12 +80,30 @@ for col in pieceLocations:
                 prop = PlacePiece(col, i, x, y)
 
                 pieceLocations[col][i][(x,y)] = prop
+                pieceLocationsByCol[col].append(prop)
 
                 if (x,y) not in piecesAtLocation:
                     piecesAtLocation[(x,y)] = []
                 piecesAtLocation[(x,y)].append(prop)
 
 
+@proposition(E)
+class PlaceColour:
+    def __init__(self, col, x, y) -> None:
+        self.col = col
+        self.x = x
+        self.y = y
+    
+    def __repr__(self) -> str:
+        return f"PlaceColour({self.col}, {self.x}, {self.y})"
+
+coloursAtLocation = {}
+for x in range(DIM):
+    for y in range(DIM):
+        coloursAtLocation[(x,y)] = {}
+        for col in pieceLocations:
+            prop = PlaceColour(col, x, y)
+            coloursAtLocation[(x,y)][col] = prop
 
 
 ####################################
@@ -89,22 +113,53 @@ for col in pieceLocations:
 ####################################
 
 
+# Only one configuration for a colour
 for col in pieceConfigs:
     constraint.add_exactly_one(E, *(pieceConfigs[col]))
 
-
-
-# specifically restrict that mega-sized red piece
-for i in range(len(pieceLocations['red'])):
-    for x in range(DIM):
-        for y in range(DIM):
-            if x > 2 or y > 2:
-                E.add_constraint(~pieceLocations['red'][i][(x,y)])
-
-
+# Don't allow pieces go out of bounds
 for x in range(DIM):
     for y in range(DIM):
-            constraint.add_at_most_one(E, *(piecesAtLocation[(x,y)]))
+        for pieceLoc in piecesAtLocation[(x,y)]:
+            disable = False
+            for (x1, y1) in get_coordinates(pieceLoc):
+                if x1 < 0 or x1 >= DIM or y1 < 0 or y1 >= DIM:
+                    disable = True
+                    break
+            if disable:
+                E.add_constraint(~pieceLoc)
+
+# At most one piece can be placed at a location
+for x in range(DIM):
+    for y in range(DIM):
+        constraint.add_at_most_one(E, *(piecesAtLocation[(x,y)]))
+
+# Can only place a piece in one place
+for col in pieceLocationsByCol:
+    constraint.add_exactly_one(E, *(pieceLocationsByCol[col]))
+
+# If a piece is picked for a location, then the appropriate configuration must be chosen
+for col in pieceLocationsByCol:
+    for var in pieceLocationsByCol[col]:
+        cVar = pieceConfigs[col][var.config_num]
+        E.add_constraint(var >> cVar)
+
+
+
+# Every location can take on at most one colour
+for x in range(DIM):
+    for y in range(DIM):
+        colAtXY = []
+        for col in coloursAtLocation[(x,y)]:
+            colAtXY.append(coloursAtLocation[(x,y)][col])
+        constraint.add_at_most_one(E, *colAtXY)
+
+# If a piece is placed, then it forces the colours under it
+for col in pieceLocationsByCol:
+    for var in pieceLocationsByCol[col]:
+        for (x,y) in get_coordinates(var):
+            if x < DIM and y < DIM:
+                E.add_constraint(var >> coloursAtLocation[(x,y)][col])
 
 
 ###################################################################
@@ -134,9 +189,12 @@ if __name__ == "__main__":
 
     sol = T.solve()
 
-    # Save this solution to file
-    with open('solution.txt', 'w') as f:
-        f.write(str(sol))
+    if sol:
+        visualize(sol, DIM, pieceConfigs, pieceLocations, coloursAtLocation)
+
+        # Save this solution to file
+        with open('solution.txt', 'w') as f:
+            f.write(str(sol))
 
     # pprint.pprint(sol)
     # print_theory(sol)
