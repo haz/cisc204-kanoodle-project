@@ -1,7 +1,7 @@
 
 from itertools import groupby
-from bauhaus import Encoding, proposition, constraint, print_theory
-from bauhaus.utils import count_solutions, likelihood
+from bauhaus import Encoding, proposition, constraint
+from bauhaus.utils import count_solutions
 
 from shapes import SHAPES
 from viz import visualize
