@@ -17,5 +17,9 @@ RUN pip3 install nnf
 RUN pip3 install bauhaus
 RUN pip3 install tabulate
 
+# put DSHARP in the right place
+#RUN curl http://some.specific.url/dsharp
+#RUN cp dsharp /usr/local/bin/
+
 # default command to execute when container starts
 CMD /bin/bash
