@@ -1,13 +1,17 @@
 
 from itertools import groupby
+from operator import add
 from bauhaus import Encoding, proposition, constraint
 from bauhaus.utils import count_solutions
 
 from shapes import SHAPES
+from boards import BOARDS
 from viz import visualize
 from utils import get_coordinates
 
-import pprint
+import pprint, sys
+
+USAGE = "\n\tUsage: python3 run.py <board number>\n"
 
 # Encoding that will store all of your constraints
 E = Encoding()
@@ -18,6 +22,13 @@ E = Encoding()
 #############
 DIM = 3
 
+colMap = {
+    'r': 'red',
+    'b': 'blue',
+    'g': 'green',
+    'y': 'yellow',
+    'o': 'orange'
+}
 
 ####################################
 #
@@ -162,6 +173,19 @@ for col in pieceLocationsByCol:
                 E.add_constraint(var >> coloursAtLocation[(x,y)][col])
 
 
+def add_board_configuration(ind):
+    assert ind in BOARDS, "Invalid board number."
+
+    board = BOARDS[ind]
+
+    for x in range(DIM):
+        for y in range(DIM):
+            if board[x][y] != '_':
+                # go from the colour character to the colour string
+                col = colMap[board[x][y]]
+                E.add_constraint(coloursAtLocation[(x,y)][col])
+
+
 ###################################################################
 
 
@@ -171,14 +195,25 @@ for col in pieceLocationsByCol:
 #  There should be at least 10 variables, and a sufficiently large formula to describe it (>50 operators).
 #  This restriction is fairly minimal, and if there is any concern, reach out to the teaching staff to clarify
 #  what the expectations are.
-def example_theory():
+def example_theory(board_num):
+
+    # Add the board constraints
+    add_board_configuration(board_num)
+
     T = E.compile()
     return T
 
 
 if __name__ == "__main__":
 
-    T = example_theory()
+    if len(sys.argv) != 2:
+        print(USAGE)
+        sys.exit(1)
+
+    board_num = int(sys.argv[1])
+    print("\nOk, solving board number %d" % board_num)
+
+    T = example_theory(board_num)
     
     # After compilation (and only after), you can check some of the properties
     # of your model:
