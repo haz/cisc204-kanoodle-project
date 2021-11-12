@@ -1,15 +1,12 @@
 
-from itertools import groupby
-from operator import add
 from bauhaus import Encoding, proposition, constraint
-from bauhaus.utils import count_solutions
 
 from shapes import SHAPES
 from boards import BOARDS
 from viz import visualize
 from utils import get_coordinates
 
-import pprint, sys
+import pprint, sys, time
 
 USAGE = "\n\tUsage: python3 run.py <board number>\n"
 
@@ -20,14 +17,15 @@ E = Encoding()
 #############
 # Constants #
 #############
-DIM = 3
+DIM = 5
 
 colMap = {
     'r': 'red',
     'b': 'blue',
     'g': 'green',
     'y': 'yellow',
-    'o': 'orange'
+    'o': 'orange',
+    'p': 'pink',
 }
 
 ####################################
@@ -47,10 +45,7 @@ class PieceConfig:
         return f"PieceConfig({self.col}, {self.config_num})"
 
 
-pieceConfigs = {
-    'red': [],
-    'blue': []
-}
+pieceConfigs = {c: [] for c in colMap.values()}
 
 for col in pieceConfigs:
     for i in range(len(SHAPES[col])):
@@ -72,10 +67,7 @@ class PlacePiece:
         return f"PlacePiece({self.col}, {self.config_num}, {self.x}, {self.y})"
 
 
-pieceLocations = {
-    'red': [{} for _ in range(len(SHAPES['red']))],
-    'blue': [{} for _ in range(len(SHAPES['blue']))]
-}
+pieceLocations = {c: [{} for _ in range(len(SHAPES[c]))] for c in pieceConfigs}
 
 piecesAtLocation = {}
 
@@ -217,29 +209,18 @@ if __name__ == "__main__":
     
     # After compilation (and only after), you can check some of the properties
     # of your model:
-    print("\nSatisfiable: %s" % T.satisfiable())
-    print("# Solutions: %d" % count_solutions(T))
-    print()
-    # print("   Solution: %s" % T.solve())
-
+    t = time.time()
     sol = T.solve()
+    print("Done in %.2f seconds" % (time.time() - t))
 
     if sol:
-        visualize(sol, DIM, pieceConfigs, pieceLocations, coloursAtLocation)
+
+        print("\nSatisfiable: True\n")
+        visualize(sol, DIM, pieceConfigs, pieceLocations, coloursAtLocation, BOARDS[board_num])
 
         # Save this solution to file
         with open('solution.txt', 'w') as f:
             f.write(str(sol))
+    else:
+        print("\nSatisfiable: False\n")
 
-    # pprint.pprint(sol)
-    # print_theory(sol)
-    # E.introspect(sol, var_level=False)
-
-    # for col in pieceConfigs:
-    #     # Print just the index for the true proposition
-    #     idx = -1
-    #     for i in range(len(pieceConfigs[col])):
-    #         if sol[pieceConfigs[col][i]]:
-    #             idx = i
-    #     print(f"{col} piece is config {idx}")
-    
