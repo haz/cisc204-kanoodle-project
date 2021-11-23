@@ -35,4 +35,12 @@ _____
 _____
 """)
 
+configs.append ("""
+____b
+opp_b
+_p__r
+_g_yr
+ggy__
+""")
+
 BOARDS = {i+1: process(configs[i]) for i in range(len(configs))}
