@@ -1,0 +1,135 @@
+﻿CONJECTUREPANEL Kanoodle
+PROOF "P11→(R111∧R211), P12→(R121∧R221), Q11→(R112∧R122), Q21→(R212∧R222), P11∨P12, ¬(P11∧P12), Q11∨Q21, ¬(Q11∧Q21), ¬(R111∧R112), ¬(R121∧R122), ¬(R211∧R212), ¬(R221∧R222) ⊢ ⊥"
+INFER P11→(R111∧R211),
+     P12→(R121∧R221),
+     Q11→(R112∧R122),
+     Q21→(R212∧R222),
+     P11∨P12,
+     ¬(P11∧P12),
+     Q11∨Q21,
+     ¬(Q11∧Q21),
+     ¬(R111∧R112),
+     ¬(R121∧R122),
+     ¬(R211∧R212),
+     ¬(R221∧R222)
+     ⊢ ⊥ 
+FORMULAE
+0 ⊥,
+1 ¬(R221∧R222),
+2 R221∧R222,
+3 R222,
+4 R221,
+5 R212∧R222,
+6 R212,
+7 Q21,
+8 Q21→R212∧R222,
+9 ¬(R121∧R122),
+10 R121∧R122,
+11 R122,
+12 R121,
+13 R112∧R122,
+14 R112,
+15 Q11,
+16 Q11→R112∧R122,
+17 Q11∨Q21,
+18 R121∧R221,
+19 P12,
+20 P12→R121∧R221,
+21 ¬(R211∧R212),
+22 R211∧R212,
+23 R211,
+24 ¬(R111∧R112),
+25 R111∧R112,
+26 R111,
+27 R111∧R211,
+28 P11,
+29 P11→R111∧R211,
+30 P11∨P12,
+31 Q21→(R212∧R222),
+32 Q11→(R112∧R122),
+33 P12→(R121∧R221),
+34 ¬(P11∧P12),
+35 ¬(Q11∧Q21),
+36 P11→(R111∧R211)
+IS
+SEQ ("∨ elim"[A,B,C\28,19,0]) (hyp[A\30]) (cut[B,C\27,0]) ("→ elim"[A,B\28,27]) (hyp[A\29]) (hyp[A\28]) (cut[B,C\23,0]) (LAYOUT "∧ elim" (0) ("∧ elim(R)"[A,B\26,23]) (hyp[A\27])) (cut[B,C\26,0]) (LAYOUT "∧ elim" (0) ("∧ elim(L)"[A,B\26,23]) (hyp[A\27])) ("∨ elim"[A,B,C\15,7,0]) (hyp[A\17]) (cut[B,C\13,0]) ("→ elim"[A,B\15,13]) (hyp[A\16]) (hyp[A\15]) (cut[B,C\14,0]) (LAYOUT "∧ elim" (0) ("∧ elim(L)"[A,B\14,11]) (hyp[A\13])) (cut[B,C\25,0]) ("∧ intro"[A,B\26,14]) (hyp[A\26]) (hyp[A\14]) (cut[B,C\0,0]) ("¬ elim"[B\25]) (hyp[A\25]) (hyp[A\24]) (hyp[A\0]) (cut[B,C\5,0]) ("→ elim"[A,B\7,5]) (hyp[A\8]) (hyp[A\7]) (cut[B,C\6,0]) (LAYOUT "∧ elim" (0) ("∧ elim(L)"[A,B\6,3]) (hyp[A\5])) (cut[B,C\22,0]) ("∧ intro"[A,B\23,6]) (hyp[A\23]) (hyp[A\6]) (cut[B,C\0,0]) ("¬ elim"[B\22]) (hyp[A\22]) (hyp[A\21]) (hyp[A\0]) (cut[B,C\18,0]) ("→ elim"[A,B\19,18]) (hyp[A\20]) (hyp[A\19]) (cut[B,C\4,0]) (LAYOUT "∧ elim" (0) ("∧ elim(R)"[A,B\12,4]) (hyp[A\18])) (cut[B,C\12,0]) (LAYOUT "∧ elim" (0) ("∧ elim(L)"[A,B\12,4]) (hyp[A\18])) ("∨ elim"[A,B,C\15,7,0]) (hyp[A\17]) (cut[B,C\13,0]) ("→ elim"[A,B\15,13]) (hyp[A\16]) (hyp[A\15]) (cut[B,C\11,0]) (LAYOUT "∧ elim" (0) ("∧ elim(R)"[A,B\14,11]) (hyp[A\13])) (cut[B,C\10,0]) ("∧ intro"[A,B\12,11]) (hyp[A\12]) (hyp[A\11]) (cut[B,C\0,0]) ("¬ elim"[B\10]) (hyp[A\10]) (hyp[A\9]) (hyp[A\0]) (cut[B,C\5,0]) ("→ elim"[A,B\7,5]) (hyp[A\8]) (hyp[A\7]) (cut[B,C\3,0]) (LAYOUT "∧ elim" (0) ("∧ elim(R)"[A,B\6,3]) (hyp[A\5])) (cut[B,C\2,0]) ("∧ intro"[A,B\4,3]) (hyp[A\4]) (hyp[A\3]) (cut[B,C\0,0]) ("¬ elim"[B\2]) (hyp[A\2]) (hyp[A\1]) (hyp[A\0])
+END
+CONJECTUREPANEL Kanoodle
+PROOF "P11→(R111∧R211), P12→(R121∧R221), Q11→(R112∧R212), Q12→(R122∧R222), P11∨P12, ¬(P11∧P12), Q11∨Q12, ¬(Q11∧Q12), ¬(R111∧R112), ¬(R121∧R122), ¬(R211∧R212), ¬(R221∧R222), R222 ⊢ P11∧Q12"
+INFER P11→(R111∧R211),
+     P12→(R121∧R221),
+     Q11→(R112∧R212),
+     Q12→(R122∧R222),
+     P11∨P12,
+     ¬(P11∧P12),
+     Q11∨Q12,
+     ¬(Q11∧Q12),
+     ¬(R111∧R112),
+     ¬(R121∧R122),
+     ¬(R211∧R212),
+     ¬(R221∧R222),
+     R222 
+     ⊢ P11∧Q12 
+FORMULAE
+0 ⊥,
+1 P11∧Q12,
+2 ¬(R221∧R222),
+3 R221∧R222,
+4 R222,
+5 R221,
+6 R121∧R221,
+7 R121,
+8 P12,
+9 P12→R121∧R221,
+10 Q12,
+11 P11,
+12 ¬(R111∧R112),
+13 R111∧R112,
+14 R112,
+15 R111,
+16 R112∧R212,
+17 R212,
+18 Q11,
+19 Q11→R112∧R212,
+20 Q11∨Q12,
+21 R111∧R211,
+22 R211,
+23 P11→R111∧R211,
+24 P11∨P12,
+25 ¬(Q11∧Q12),
+26 ¬(R121∧R122),
+27 P12→(R121∧R221),
+28 ¬(R211∧R212),
+29 ¬(P11∧P12),
+30 ¬(R111∧R112),
+31 ¬(R221∧R222),
+32 P11→(R111∧R211),
+33 Q11→(R112∧R212),
+34 Q12→(R122∧R222)
+IS
+SEQ ("∨ elim"[A,B,C\11,8,1]) (hyp[A\24]) (cut[B,C\21,1]) ("→ elim"[A,B\11,21]) (hyp[A\23]) (hyp[A\11]) (cut[B,C\15,1]) (LAYOUT "∧ elim" (0) ("∧ elim(L)"[A,B\15,22]) (hyp[A\21])) ("∨ elim"[A,B,C\18,10,1]) (hyp[A\20]) (cut[B,C\16,1]) ("→ elim"[A,B\18,16]) (hyp[A\19]) (hyp[A\18]) (cut[B,C\14,1]) (LAYOUT "∧ elim" (0) ("∧ elim(L)"[A,B\14,17]) (hyp[A\16])) (cut[B,C\13,1]) ("∧ intro"[A,B\15,14]) (hyp[A\15]) (hyp[A\14]) (cut[B,C\0,1]) ("¬ elim"[B\13]) (hyp[A\13]) (hyp[A\12]) ("contra (constructive)"[B\1]) (hyp[A\0]) ("∧ intro"[A,B\11,10]) (hyp[A\11]) (hyp[A\10]) (cut[B,C\6,1]) ("→ elim"[A,B\8,6]) (hyp[A\9]) (hyp[A\8]) (cut[B,C\5,1]) (LAYOUT "∧ elim" (0) ("∧ elim(R)"[A,B\7,5]) (hyp[A\6])) (cut[B,C\3,1]) ("∧ intro"[A,B\5,4]) (hyp[A\5]) (hyp[A\4]) (cut[B,C\0,1]) ("¬ elim"[B\3]) (hyp[A\3]) (hyp[A\2]) ("contra (constructive)"[B\1]) (hyp[A\0])
+END
+CONJECTUREPANEL Kanoodle
+PROOF "P11→(R111∧R211), P12→(R121∧R221), ¬R121, P11∨P12, ¬(P11∧P12) ⊢ P11"
+INFER P11→(R111∧R211),
+     P12→(R121∧R221),
+     ¬R121,
+     P11∨P12,
+     ¬(P11∧P12)
+     ⊢ P11 
+FORMULAE
+0 ⊥,
+1 P11,
+2 ¬R121,
+3 R121,
+4 R121∧R221,
+5 R221,
+6 P12,
+7 P12→R121∧R221,
+8 P11∨P12,
+9 P12→(R121∧R221),
+10 ¬(P11∧P12),
+11 P11→(R111∧R211)
+IS
+SEQ ("∨ elim"[A,B,C\1,6,1]) (hyp[A\8]) (hyp[A\1]) (cut[B,C\4,1]) ("→ elim"[A,B\6,4]) (hyp[A\7]) (hyp[A\6]) (cut[B,C\3,1]) (LAYOUT "∧ elim" (0) ("∧ elim(L)"[A,B\3,5]) (hyp[A\4])) (cut[B,C\0,1]) ("¬ elim"[B\3]) (hyp[A\3]) (hyp[A\2]) ("contra (constructive)"[B\1]) (hyp[A\0])
+END
