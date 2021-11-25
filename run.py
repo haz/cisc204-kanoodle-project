@@ -187,7 +187,7 @@ def add_board_configuration(ind):
 #  There should be at least 10 variables, and a sufficiently large formula to describe it (>50 operators).
 #  This restriction is fairly minimal, and if there is any concern, reach out to the teaching staff to clarify
 #  what the expectations are.
-def example_theory(board_num):
+def example_theory(board_num=1):
 
     # Add the board constraints
     add_board_configuration(board_num)
